@@ -1,6 +1,8 @@
 # carve
 
-Convert remove PDFs or Word Documents into an array of PNGs. Takes a url of a PDF or Word Document and converts its pages into individual PNGs.
+Convert PDFs or Word Documents into an array of PNGs. Takes a url of a PDF or Word Document and converts its pages into individual PNGs.
+
+[![BuildStatus](https://travis-ci.org/scottmotte/carve.png?branch=master)](https://travis-ci.org/scottmotte/carve)
 
 ## Usage
 
