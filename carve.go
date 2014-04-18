@@ -1,15 +1,14 @@
 package carve
 
 import (
-	"fmt"
-	doc2pdf "github.com/scottmotte/doc2pdf"
+	"bytes"
 	"io"
 	"mime"
 	"net/http"
 	"os"
-	"path/filepath"
-	//"time"
 	"os/exec"
+	"path/filepath"
+	"strings"
 )
 
 func Convert(url string) (string, error) {
@@ -18,21 +17,12 @@ func Convert(url string) (string, error) {
 		return "", err
 	}
 
-	path, err := ConvertToPdf(base)
+	pngs, err := ConvertToPngs(base)
 	if err != nil {
 		return "", err
 	}
 
-	pngs, err := ConvertToPngs(path)
-	if err != nil {
-		return "", err
-	}
-	if len(pngs) == 0 {
-		return "", err
-	}
-
-	// THIS NEEDS TO BE FIXED TO RETURN PNGS
-	return "", nil
+	return pngs, nil
 }
 
 func GetMimeTypeByFilename(base string) string {
@@ -59,27 +49,11 @@ func Download(url string) (string, error) {
 	return base, nil
 }
 
-func ConvertToPdf(input_path string) (string, error) {
-	mimetype := GetMimeTypeByFilename(input_path)
-
-	if mimetype == "application/msword" {
-		path, err := doc2pdf.Convert(input_path, input_path+".pdf")
-		if err != nil {
-			return "", err
-		}
-
-		return path, nil
-	} else {
-		return input_path, nil
-	}
-}
-
 func mkPngsDir(input_path string) (string, error) {
 	var pngs_dir string = input_path + "-pngs"
 
 	err := os.MkdirAll(pngs_dir, 0777)
 	if err != nil {
-		fmt.Println(err)
 		return "", err
 	}
 
@@ -93,12 +67,32 @@ func ConvertToPngs(input_path string) (string, error) {
 	}
 
 	cmd := exec.Command("mudraw", "-r", "200", "-m", "-o", pngs_dir+"/%d.png", input_path)
-	cmd.Stdout = os.Stdout
+	var out bytes.Buffer
+	cmd.Stdout = &out
 	cmd.Stderr = os.Stderr
 	err = cmd.Run()
 	if err != nil {
 		return "", err
 	}
 
-	return "", nil
+	dir, err := os.Open(pngs_dir)
+	if err != nil {
+		return "", err
+	}
+	defer dir.Close()
+
+	filenames := make([]string, 0)
+
+	fis, err := dir.Readdir(-1)
+	if err != nil {
+		return "", err
+	}
+	for _, fileinfo := range fis {
+		if !fileinfo.IsDir() {
+			filenames = append(filenames, fileinfo.Name())
+		}
+	}
+
+	filenames_joined := strings.Join(filenames, ",")
+	return filenames_joined, nil
 }

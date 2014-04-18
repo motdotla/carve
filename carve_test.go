@@ -5,19 +5,13 @@ import (
 	"testing"
 )
 
-func TestConvertToPngs(t *testing.T) {
-	base, err := carve.Download("http://www.unc.edu/~stanlele/task03.doc")
+func TestConvert(t *testing.T) {
+	pngs, err := carve.Convert("http://www.bramstoker.org/pdf/stories/03guest/01guest.pdf")
 	if err != nil {
 		t.Errorf("Error", err)
 	}
 
-	path, err := carve.ConvertToPdf(base)
-	if err != nil {
-		t.Errorf("Error", err)
-	}
-
-	pngs, _ := carve.ConvertToPngs(path)
-	if len(pngs) == 0 {
-		t.Errorf("Pngs were blank")
+	if len(pngs) <= 10 {
+		t.Errorf("Pngs were blank or not enough")
 	}
 }
