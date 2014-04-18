@@ -17,7 +17,7 @@ import (
 )
 
 func main() {
-  pngs, err := carve.Convert("http://some-url.com/path-to-file.pdf")
+  pngs, err := carve.Convert("http://some-url.com/path-to-file.pdf", "/local/path/to/output/dir")
   if err != nil {
     fmt.Println(err)
   }

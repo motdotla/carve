@@ -2,6 +2,7 @@ package carve
 
 import (
 	"bytes"
+	"fmt"
 	"io"
 	"mime"
 	"net/http"
@@ -11,13 +12,13 @@ import (
 	"strings"
 )
 
-func Convert(url string) (string, error) {
-	base, err := Download(url)
+func Convert(url string, output_dir string) (string, error) {
+	path, err := Download(url, output_dir)
 	if err != nil {
 		return "", err
 	}
 
-	pngs, err := ConvertToPngs(base)
+	pngs, err := ConvertToPngs(path)
 	if err != nil {
 		return "", err
 	}
@@ -29,10 +30,16 @@ func GetMimeTypeByFilename(base string) string {
 	return mime.TypeByExtension(filepath.Ext(base))
 }
 
-func Download(url string) (string, error) {
-	base := filepath.Base(url)
+func Download(url string, output_dir string) (string, error) {
+	err := os.MkdirAll(output_dir, 0777)
+	if err != nil {
+		return "", err
+	}
 
-	out, err := os.Create(base)
+	base := filepath.Base(url)
+	path := output_dir + "/" + base
+
+	out, err := os.Create(path)
 	if err != nil {
 		return "", err
 	}
@@ -46,7 +53,9 @@ func Download(url string) (string, error) {
 
 	io.Copy(out, resp.Body)
 
-	return base, nil
+	fmt.Println(path)
+
+	return path, nil
 }
 
 func mkPngsDir(input_path string) (string, error) {
@@ -66,6 +75,7 @@ func ConvertToPngs(input_path string) (string, error) {
 		return "", err
 	}
 
+	fmt.Println(pngs_dir)
 	cmd := exec.Command("mudraw", "-r", "200", "-m", "-o", pngs_dir+"/%d.png", input_path)
 	var out bytes.Buffer
 	cmd.Stdout = &out

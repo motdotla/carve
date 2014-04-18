@@ -6,7 +6,7 @@ import (
 )
 
 func TestConvert(t *testing.T) {
-	pngs, err := carve.Convert("http://www.bramstoker.org/pdf/stories/03guest/01guest.pdf")
+	pngs, err := carve.Convert("http://www.bramstoker.org/pdf/stories/03guest/01guest.pdf", "./tmp")
 	if err != nil {
 		t.Errorf("Error", err)
 	}
