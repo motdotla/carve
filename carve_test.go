@@ -2,6 +2,7 @@ package carve_test
 
 import (
 	carve "github.com/scottmotte/carve"
+	"log"
 	"testing"
 )
 
@@ -14,4 +15,5 @@ func TestConvert(t *testing.T) {
 	if len(pngs) <= 10 {
 		t.Errorf("Pngs were blank or not enough")
 	}
+	log.Println(pngs)
 }

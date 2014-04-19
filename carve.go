@@ -2,8 +2,8 @@ package carve
 
 import (
 	"bytes"
-	"fmt"
 	"io"
+	"log"
 	"mime"
 	"net/http"
 	"os"
@@ -53,7 +53,7 @@ func Download(url string, output_dir string) (string, error) {
 
 	io.Copy(out, resp.Body)
 
-	fmt.Println(path)
+	log.Println(path)
 
 	return path, nil
 }
@@ -75,7 +75,7 @@ func ConvertToPngs(input_path string) (string, error) {
 		return "", err
 	}
 
-	fmt.Println(pngs_dir)
+	log.Println(pngs_dir)
 	cmd := exec.Command("mudraw", "-r", "200", "-m", "-o", pngs_dir+"/%d.png", input_path)
 	var out bytes.Buffer
 	cmd.Stdout = &out
@@ -99,7 +99,7 @@ func ConvertToPngs(input_path string) (string, error) {
 	}
 	for _, fileinfo := range fis {
 		if !fileinfo.IsDir() {
-			filenames = append(filenames, fileinfo.Name())
+			filenames = append(filenames, pngs_dir+"/"+fileinfo.Name())
 		}
 	}
 
