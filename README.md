@@ -25,6 +25,13 @@ func main() {
   fmt.Println(pngs)
 }
 ```
+
+The output of pngs is a string of comma separated values of the path to the pngs. For example:
+
+```
+./tmp/01guest.pdf-pngs/1.png,./tmp/01guest.pdf-pngs/10.png,./tmp/01guest.pdf-pngs/11.png,./tmp/01guest.pdf-pngs/12.png,./tmp/01guest.pdf-pngs/13.png,./tmp/01guest.pdf-pngs/2.png,./tmp/01guest.pdf-pngs/3.png,./tmp/01guest.pdf-pngs/4.png,./tmp/01guest.pdf-pngs/5.png,./tmp/01guest.pdf-pngs/6.png,./tmp/01guest.pdf-pngs/7.png,./tmp/01guest.pdf-pngs/8.png,./tmp/01guest.pdf-pngs/9.png
+```
+
 ## Installation
 
 ```bash
