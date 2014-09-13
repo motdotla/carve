@@ -1,7 +1,7 @@
 package carve_test
 
 import (
-	carve "github.com/scottmotte/carve"
+	carve "github.com/motdotla/carve"
 	"testing"
 )
 

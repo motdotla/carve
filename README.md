@@ -1,10 +1,12 @@
 # carve
 
+<img src="https://raw.githubusercontent.com/motdotla/carve/master/carve.gif" alt="carve" align="right" width="220" />
+
 Convert PDFs into an array of PNGs. Takes a url of a PDF and converts its pages into individual PNGs.
 
 Word documents are planned in the future.
 
-[![BuildStatus](https://travis-ci.org/scottmotte/carve.png?branch=master)](https://travis-ci.org/scottmotte/carve)
+[![BuildStatus](https://travis-ci.org/motdotla/carve.png?branch=master)](https://travis-ci.org/motdotla/carve)
 
 ## Usage
 
@@ -13,7 +15,7 @@ package main
 
 import (
   "fmt"
-  carve "github.com/scottmotte/carve"
+  carve "github.com/motdotla/carve"
 )
 
 func main() {
@@ -35,7 +37,7 @@ The output of pngs is a string of comma separated values of the path to the pngs
 ## Installation
 
 ```bash
-go get github.com/scottmotte/carve
+go get github.com/motdotla/carve
 ```
 
 ## Running Tests
